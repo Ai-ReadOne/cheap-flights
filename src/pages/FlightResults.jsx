@@ -125,7 +125,7 @@ function FlightResultsPage({ flightsData, initialSearchParams }) {
   // Map the filtered flights to the display cards
   const visibleItineraries = sortedItineraries.slice(0, visibleFlights); 
   const flightCards = visibleItineraries.map((flight) => (
-    <Grid item size={{xs:12}}  key={flight.id}>
+    <Grid  size={{xs:12}}  key={flight.id}>
       <FlightCard flight={flight} />
     </Grid>
   ));
@@ -170,7 +170,7 @@ function FlightResultsPage({ flightsData, initialSearchParams }) {
         {/* Filter Bar */}
         <Box sx={{ mb: 2, width: '100%' }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid  size={{xs:12, sm:7}}>
           <FlightFilterBar
             priceRange={priceRange}
             setPriceRange={setPriceRange}
@@ -185,8 +185,8 @@ function FlightResultsPage({ flightsData, initialSearchParams }) {
             filterStats={filterStats}
           />
           </Grid>
-          <Grid item xs={12} sm={6}>
-          <FlightSortBar selectedSort={sort} setSelectedSort={setSort} />
+          <Grid  size={{xs:12, sm:5}}>
+            <FlightSortBar selectedSort={sort} setSelectedSort={setSort} />
           </Grid>
           </Grid>
         </Box>

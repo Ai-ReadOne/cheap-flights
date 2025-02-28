@@ -156,7 +156,7 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
       <Box component="form" onSubmit={handleSearch}>
         <Grid container spacing={3}>
           {/* Origin */}
-          <Grid item size={{ xs: 12, sm: 6 }}>
+          <Grid  size={{ xs: 12, sm: 6 }}>
             <Autocomplete
               options={originOptions}
               getOptionLabel={(option) => option.localizedName + ' ' + option.skyId || ''}
@@ -183,7 +183,7 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
           </Grid>
 
           {/* Destination */}
-          <Grid item size={{ xs: 12, sm: 6 }}>
+          <Grid  size={{ xs: 12, sm: 6 }}>
             <Autocomplete
               options={destinationOptions}
               getOptionLabel={(option) => option.localizedName + ' ' + option.skyId || ''}
@@ -212,7 +212,7 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
 
         <Grid container spacing={3} sx={{ mt: 2 }}>
           {/* Dates */}
-          <Grid item size={{ xs: 6, sm: 4 }}>
+          <Grid  size={{ xs: 6, sm: 4 }}>
             <DatePicker
               label="Departure"
               value={dates.departure}
@@ -235,7 +235,7 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
             />
           </Grid>
 
-          <Grid item size={{ xs: 6, sm: 4 }}>
+          <Grid  size={{ xs: 6, sm: 4 }}>
             <DatePicker
               label="Return"
               value={dates.return}
@@ -254,7 +254,7 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
           </Grid>
 
           {/* Passengers & Class */}
-          <Grid item size={{ xs: 12, sm: 4 }}>
+          <Grid  size={{ xs: 12, sm: 4 }}>
             <Button
               fullWidth
               variant="filled"
@@ -311,7 +311,7 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
         </Grid>
         <Grid container spacing={3} sx={{ mt: 2 }}>
           {/* Search Button */}
-          <Grid item xs={12} md={2}>
+          <Grid  xs={12} md={2}>
             <Button
               fullWidth
               variant="contained"

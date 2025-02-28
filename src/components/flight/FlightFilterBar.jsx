@@ -54,7 +54,7 @@ const FlightFilterBar = ({
         </Box>
        <Grid container spacing={isSmallScreen ? 1 : 2} sx={{width: '100%'}}>
         {/* Price Filter */}
-        <Grid item xs={12} sm={isSmallScreen ? 12 : 'auto'}>
+        <Grid  size={{xs: 12, sm: 'auto'}}>
             <Button
               id="price-button"
               onClick={(event) => handlePopoverOpen(event, 'price')}
@@ -84,7 +84,7 @@ const FlightFilterBar = ({
           </Grid>
 
           {/* Stops Filter */}
-          <Grid item xs={12} sm={isSmallScreen ? 12 : 'auto'}>
+          <Grid  size={{xs: 12, sm: 'auto'}}>
             <Button
               id="stops-button"
               onClick={(event) => handlePopoverOpen(event, 'stops')}
@@ -103,7 +103,7 @@ const FlightFilterBar = ({
           </Grid>
 
           {/* Duration Filter */}
-          <Grid item xs={12} sm={isSmallScreen ? 12 : 'auto'}>
+          <Grid  size={{xs: 12, sm: 'auto'}}>
             <Button
               id="duration-button"
               onClick={(event) => handlePopoverOpen(event, 'duration')}
@@ -122,7 +122,7 @@ const FlightFilterBar = ({
           </Grid>
 
           {/* Times Filter */}
-          <Grid item xs={12} sm={isSmallScreen ? 12 : 'auto'}>
+          <Grid  size={{xs: 12, sm: 'auto'}}>
             <Button
               id="times-button"
               onClick={(event) => handlePopoverOpen(event, 'times')}
@@ -141,7 +141,7 @@ const FlightFilterBar = ({
           </Grid>
 
           {/* Airlines Filter */}
-          <Grid item xs={12} sm={isSmallScreen ? 12 : 'auto'}>
+          <Grid  size={{xs: 12, sm: 'auto'}}>
             <Button
               id="airlines-button"
               onClick={(event) => handlePopoverOpen(event, 'airlines')}

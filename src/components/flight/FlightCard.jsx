@@ -33,7 +33,7 @@ const FlightCard = ({ flight }) => {
       <CardContent>
         <Grid container spacing={2}>
           {/* Price Section */}
-          <Grid item size={{ xs: 12, sm: 2 }} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', pr: 2 }}>
+          <Grid  size={{ xs: 12, sm: 2 }} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', pr: 2 }}>
             <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
               {price.formatted}
             </Typography>
@@ -43,11 +43,11 @@ const FlightCard = ({ flight }) => {
           </Grid>
 
           {/* Flight Details Section */}
-          <Grid item size={{ xs: 12, sm: 8 }} sx={{pl: 2}}>
+          <Grid  size={{ xs: 12, sm: 8 }} sx={{pl: 2}}>
             {legs.map((leg) => (
               <Grid key={leg.id} container spacing={2} alignItems="center">
                 {/* Departure */}
-                <Grid item size={{ xs: 12, sm: 3 }}>
+                <Grid  size={{ xs: 12, sm: 3 }}>
                   <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
                     {leg.origin.displayCode}
                   </Typography>
@@ -60,7 +60,7 @@ const FlightCard = ({ flight }) => {
                 </Grid>
 
                 {/* Duration & Stops */}
-                <Grid item size={{ xs: 12, sm: 3 }} sx={{ textAlign: 'center', }}>
+                <Grid  size={{ xs: 12, sm: 3 }} sx={{ textAlign: 'center', }}>
                   <Typography variant="body2">
                     {formatDuration(leg.durationInMinutes)}
                   </Typography>
@@ -70,7 +70,7 @@ const FlightCard = ({ flight }) => {
                 </Grid>
 
                 {/* Arrival */}
-                <Grid item size={{ xs: 12, sm: 3 }} sx={{ textAlign: 'center', }}>
+                <Grid  size={{ xs: 12, sm: 3 }} sx={{ textAlign: 'center', }}>
                   <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
                     {leg.destination.displayCode}
                   </Typography>
@@ -83,7 +83,7 @@ const FlightCard = ({ flight }) => {
                 </Grid>
 
                 {/* Airline Info */}
-                <Grid item size={{ xs: 12, sm: 3 }} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                <Grid  size={{ xs: 12, sm: 3 }} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                   <Stack direction="row" spacing={1} sx={{ width: '100%', justifyContent: 'flex-end'}}>
                     {leg.carriers.marketing.map((carrier, index) => (
                       <Avatar key={index} alt={carrier.name} src={carrier.logoUrl} sx={{ width: 45, height: 45 }} />
