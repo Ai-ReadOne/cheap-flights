@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Box, Typography, Container, Grid2 as Grid, Button } from '@mui/material';
-import FlightCard from './FlightCard';
-import FlightFilterBar from './FlightFilterBar';
-import FlightSearch from './FlightSearch';
-import FlightSortBar from './FlightSortBar';
+import { Box, Card, CardContent, Typography, Container, Grid2 as Grid, Button } from '@mui/material';
+import FlightCard from '../components/flight/FlightCard';
+import FlightFilterBar from '../components/flight/FlightFilterBar';
+import FlightSearch from '../components/flight/FlightSearch';
+import FlightSortBar from '../components/flight/FlightSortBar';
 
-function FlightResults({ flightsData, initialSearchParams }) {
+function FlightResultsPage({ flightsData, initialSearchParams }) {
   const [priceRange, setPriceRange] = useState([0, 2000]);
   const [timesFilter, setTimesFilter] = useState({
     outbound: [0, 24],
@@ -16,7 +16,7 @@ function FlightResults({ flightsData, initialSearchParams }) {
   const [stopsFilter, setStopsFilter] = useState('Any');
   const [sort, setSort] = useState('best')
   const [searchData, setSearchData] = useState(flightsData);
-  const [visibleFlights, setVisibleFlights] = useState(10); // Number of flights initially visible
+  const [visibleFlights, setVisibleFlights] = useState(10);
 
   const itineraries = searchData?.itineraries || [];
   const filterStats = searchData?.filterStats || {};
@@ -122,25 +122,27 @@ function FlightResults({ flightsData, initialSearchParams }) {
     return sorted;
   }, [filteredItineraries, sort]);
 
-  // Map the filtered flights to the display
-    const visibleItineraries = sortedItineraries.slice(0, visibleFlights); // Slice for show more
+  // Map the filtered flights to the display cards
+  const visibleItineraries = sortedItineraries.slice(0, visibleFlights); 
   const flightCards = visibleItineraries.map((flight) => (
     <Grid item size={{xs:12}}  key={flight.id}>
       <FlightCard flight={flight} />
     </Grid>
   ));
-    const handleShowMore = () => {
-        setVisibleFlights((prevVisibleFlights) => prevVisibleFlights + 10); // Show 10 more
-    };
+
+
+  const handleShowMore = () => {
+      setVisibleFlights((prevVisibleFlights) => prevVisibleFlights + 10); 
+  };
 
   const handleSearch = (data) => {
     setSearchData(data);
-    setVisibleFlights(10); //reset the amount of flights shown on a new search.
+    setVisibleFlights(10);
   };
 
   useEffect(() => {
      setSort('best');
-     setVisibleFlights(10); // reset the amount of flights shown on new filter.
+     setVisibleFlights(10);
   }, [searchData])
 
   return (
@@ -155,8 +157,8 @@ function FlightResults({ flightsData, initialSearchParams }) {
       }}
     >
       <Box sx={{ width: '100%', maxWidth: '1000px' }}>
-        <Typography variant="h6" sx={{ mb: 2, textAlign: 'center' }}>
-          Flight Results
+        <Typography variant="h5" sx={{ mb: 3, fontWeight: 500, justifyContent: 'center' }}>
+                Find Cheap Flights
         </Typography>
 
         {/* Flight Search (with initial parameters) */}
@@ -208,4 +210,4 @@ function FlightResults({ flightsData, initialSearchParams }) {
   );
 }
 
-export default FlightResults;
+export default FlightResultsPage;

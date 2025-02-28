@@ -2,13 +2,12 @@
 import React, { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 import ResponsiveNavbar from './components/ResponsiveNavbar';
-import FlightSearch from './components/flight/FlightSearch';
-import FlightResults from './components/flight/FlightResults';
+import FlightResultsPage from './pages/FlightResults';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -52,12 +51,9 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<FlightSearch onSearch={handleSearch} />}
-            />
-            <Route
-              path="/results"
-              element={<FlightResults 
+              element={<FlightResultsPage 
                 flightsData={searchData}
+                onSearch={handleSearch}
                 initialState={{
                   selectedOrigin: selectedOrigin,
                   selectedDestination: selectedDestination,

@@ -144,7 +144,7 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
       if (onSearch) {
         onSearch(response);
       }
-      navigate('/results');
+      navigate('/');
     } catch (error) {
       console.error(error);
       alert('Failed to fetch flight data');
@@ -153,10 +153,6 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
 
   return (
     <Paper elevation={0} sx={{ p: 3, borderRadius: 4, boxShadow: 3 }}>
-      <Typography variant="h5" sx={{ mb: 3, fontWeight: 500 }}>
-        Find cheap flights
-      </Typography>
-
       <Box component="form" onSubmit={handleSearch}>
         <Grid container spacing={3}>
           {/* Origin */}

@@ -40,7 +40,12 @@ function ResponsiveNavbar({ darkMode, handleToggleDarkMode }) {
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Brand>
-              <Typography variant="h6" component="div">
+              <Typography 
+              variant="h6" 
+              component="a"
+              href="/"
+              sx={{textDecoration: 'none', color: 'inherit'}}
+              >
                 Cheap Flights
               </Typography>
             </Brand>
