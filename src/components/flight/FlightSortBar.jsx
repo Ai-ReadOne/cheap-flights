@@ -16,8 +16,6 @@ function FlightSortBar({ selectedSort, setSelectedSort }) {
         gap: 2,
         py: 1,
         px: 1,
-        borderBottom: '1px solid',
-        borderColor: 'divider',
       }}
     >
       <Typography variant="subtitle1">Sort by:</Typography>

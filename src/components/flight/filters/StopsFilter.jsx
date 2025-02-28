@@ -1,4 +1,3 @@
-// src/components/FlightResults/filters/StopsFilter.js
 import React from 'react';
 import {
   Popover,
@@ -13,15 +12,6 @@ import {
 } from '@mui/material';
 
 function StopsFilter({ open, anchorEl, onClose, stopsFilter, setStopsFilter }) {
-  /**
-   * stopsFilter is a string, one of:
-   *  - "Any"
-   *  - "Nonstop"
-   *  - "1 stop"
-   *  - "2+ stops"
-   * Adapt these to match how you handle stops in your flight data.
-   */
-
   const handleChange = (event) => {
     setStopsFilter(event.target.value);
   };

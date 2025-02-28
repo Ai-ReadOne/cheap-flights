@@ -58,7 +58,7 @@ function ResponsiveNavbar({ darkMode, handleToggleDarkMode }) {
             <Typography
               variant="body1"
               component="a"
-              href="#flights"
+              href="/"
               sx={{ textDecoration: 'none', color: 'inherit' }}
             >
               Flights

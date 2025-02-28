@@ -52,9 +52,6 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
   const [destinationQuery, setDestinationQuery] = useState('');
   const [destinationOptions, setDestinationOptions] = useState([]);
   const [selectedDestination, setSelectedDestination] = useState(null);
-    
-    
-  // Dates
   const [dates, setDates] = useState({
     departure: null,
     return: null,
@@ -79,7 +76,6 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
     []
   );
 
-  // When originQuery changes, fetch suggestions
   useEffect(() => {
     if (originQuery) {
       debouncedFetchOrigin(originQuery);
@@ -88,7 +84,6 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
     }
   }, [originQuery, debouncedFetchOrigin]);
 
-  // When destinationQuery changes, fetch suggestions
   useEffect(() => {
     if (destinationQuery) {
       debouncedFetchDestination(destinationQuery);
@@ -100,7 +95,6 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
     
   // Set initial states based on props
     useEffect(() => {
-        console.log("initialState in useEffect", initialState);
         setSelectedOrigin(initialState.selectedOrigin || null);
         setSelectedDestination(initialState.selectedDestination || null);
         setDates({
@@ -120,9 +114,7 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
     setAnchorEl(null);
   };
 
-  // ---------------------
-  // Handle Form Submit
-  // ---------------------
+  // Handles form submit
   const handleSearch = async (e) => {
     e.preventDefault();
 
@@ -148,7 +140,6 @@ function FlightSearch({ onSearch, initialState = defaultInitialState }) {
           if (!params.date) delete params.date;
           if (!params.returnDate) delete params.returnDate;
 
-      console.log('Search parameters:', params);
       const response = await searchFlights(params);
       if (onSearch) {
         onSearch(response);

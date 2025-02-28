@@ -1,7 +1,5 @@
 import axios from 'axios';
-
-const RAPIDAPI_KEY = import.meta.env.VITE_RAPIDAPI_KEY;
-const RAPIDAPI_HOST = import.meta.env.VITE_RAPIDAPI_HOST;
+import {RapidApiConfig} from '../config.js';
 
 export async function fetchAirports(query) {
   if (!query) return [];
@@ -12,8 +10,8 @@ export async function fetchAirports(query) {
       {
         params: { query },
         headers: {
-          'x-rapidapi-key': RAPIDAPI_KEY,
-          'x-rapidapi-host': RAPIDAPI_HOST
+          'x-rapidapi-key': RapidApiConfig.key,
+          'x-rapidapi-host': RapidApiConfig.host
         }
       }
     );
@@ -25,7 +23,6 @@ export async function fetchAirports(query) {
       let airport = data[key];
       airports.push(airport.navigation?.relevantFlightParams);
     }
-    console.log('Fetched airports:', airports);
     return airports;
   } catch (error) {
     console.error('Error fetching airports:', error);

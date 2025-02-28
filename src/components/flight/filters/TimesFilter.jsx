@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Popover, Box, Typography, Slider, Button, IconButton, Grid, Divider } from '@mui/material';
+import { Popover, Box, Typography, Slider, Button, IconButton, Grid2 as Grid, Divider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 function TimesFilter({ open, anchorEl, onClose, timesFilter, setTimesFilter }) {
-  // Local state to track changes before applying
   const [localTimesFilter, setLocalTimesFilter] = useState(timesFilter);
   
   const handleOutboundChange = (_, newValue) => {
