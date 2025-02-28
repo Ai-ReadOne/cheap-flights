@@ -40,12 +40,8 @@ function ResponsiveNavbar({ darkMode, handleToggleDarkMode }) {
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Brand>
-              <Logo
-                src="https://via.placeholder.com/80x40?text=Logo"
-                alt="Brand Logo"
-              />
               <Typography variant="h6" component="div">
-                Flights
+                Cheap Flights
               </Typography>
             </Brand>
           </Box>

@@ -1,102 +1,151 @@
-import React from 'react';
-import { Box, Chip, Typography, Stack } from '@mui/material';
+// src/components/flight/FlightFilterBar.jsx
+import React, { useState } from 'react';
+import { Box, Typography, Button } from '@mui/material';
+import TimesFilter from './filters/TimesFilter';
+import AirlinesFilter from './filters/AirlinesFilter';
+import PriceFilter from './filters/PriceFilter';
+import DurationFilter from './filters/DurationFilter';
+import StopsFilter from './filters/StopsFilter';
 
-function FlightFilterBar({
-  selectedStops,
-  setSelectedStops,
-  selectedAirlines,
-  setSelectedAirlines,
-  selectedTimes,
-  setSelectedTimes
-}) {
-  // Example filter options
-  const stopsOptions = ['Nonstop', '1 stop', '2+ stops'];
-  const airlineOptions = ['Delta', 'United', 'Air France', 'Lufthansa'];
-  const timeOptions = ['Morning', 'Afternoon', 'Evening', 'Overnight'];
+const FlightFilterBar = ({
+  priceRange,
+  setPriceRange,
+  timesFilter,
+  setTimesFilter,
+  durationFilter,
+  setDurationFilter,
+  airlinesFilter,
+  setAirlinesFilter,
+  stopsFilter,
+  setStopsFilter,
+  filterStats,
+}) => {
+  const [popoverOpen, setPopoverOpen] = useState(null);
 
-  const handleToggleStops = (option) => {
-    if (selectedStops.includes(option)) {
-      setSelectedStops(selectedStops.filter((s) => s !== option));
-    } else {
-      setSelectedStops([...selectedStops, option]);
-    }
+  const handlePopoverOpen = (event, filterName) => {
+    setPopoverOpen(filterName);
   };
 
-  const handleToggleAirlines = (option) => {
-    if (selectedAirlines.includes(option)) {
-      setSelectedAirlines(selectedAirlines.filter((a) => a !== option));
-    } else {
-      setSelectedAirlines([...selectedAirlines, option]);
-    }
+  const handlePopoverClose = () => {
+    setPopoverOpen(null);
   };
 
-  const handleToggleTimes = (option) => {
-    if (selectedTimes.includes(option)) {
-      setSelectedTimes(selectedTimes.filter((t) => t !== option));
-    } else {
-      setSelectedTimes([...selectedTimes, option]);
-    }
+  const airlines = filterStats.carriers || [];
+
+  // Helper function to get the anchor element for the popover
+  const getAnchorEl = (filterName) => {
+    return document.getElementById(filterName + '-button');
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: 2,
-        alignItems: 'center',
-        py: 1,
-        px: 1,
-        borderBottom: '1px solid',
-        borderColor: 'divider',
-      }}
-    >
-      <Typography variant="subtitle1" sx={{ mr: 2 }}>
-        Filters:
-      </Typography>
+    <Box 
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: 2,
+      py: 1,
+      px: 1,
+      borderBottom: '1px solid',
+      borderColor: 'divider',
+    }}>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="subtitle1">Filter:</Typography>
+        </Box>
+      {/* Price Filter */}
+      <Box sx={{ mb: 2 }}>
+        <Button
+          id="price-button"
+          onClick={(event) => handlePopoverOpen(event, 'price')}
+          variant="outlined"
+        >
+          Price
+        </Button>
+        <PriceFilter
+          open={popoverOpen === 'price'}
+          anchorEl={getAnchorEl('price')}
+          onClose={handlePopoverClose}
+          priceRange={priceRange}
+          setPriceRange={setPriceRange}
+          max={filterStats?.stopPrices ? Math.max(...Object.values(filterStats.stopPrices).filter(x => x?.formattedPrice).map(x => Number(x.formattedPrice.replace(/\D/g, '')))) : 2000}
+        />
+      </Box>
 
-      {/* Stops */}
-      <Stack direction="row" spacing={1} alignItems="center">
-        <Typography variant="body2">Stops:</Typography>
-        {stopsOptions.map((option) => (
-          <Chip
-            key={option}
-            label={option}
-            variant={selectedStops.includes(option) ? 'filled' : 'outlined'}
-            onClick={() => handleToggleStops(option)}
-          />
-        ))}
-      </Stack>
+      {/* Stops Filter */}
+      <Box sx={{ mb: 2 }}>
+        <Button
+          id="stops-button"
+          onClick={(event) => handlePopoverOpen(event, 'stops')}
+          variant="outlined"
+        >
+          Stops
+        </Button>
+        <StopsFilter
+          open={popoverOpen === 'stops'}
+          anchorEl={getAnchorEl('stops')}
+          onClose={handlePopoverClose}
+          stopsFilter={stopsFilter}
+          setStopsFilter={setStopsFilter}
+        />
+      </Box>
 
-      {/* Airlines */}
-      <Stack direction="row" spacing={1} alignItems="center">
-        <Typography variant="body2">Airlines:</Typography>
-        {airlineOptions.map((option) => (
-          <Chip
-            key={option}
-            label={option}
-            variant={selectedAirlines.includes(option) ? 'filled' : 'outlined'}
-            onClick={() => handleToggleAirlines(option)}
-          />
-        ))}
-      </Stack>
+      {/* Duration Filter */}
+      <Box sx={{ mb: 2 }}>
+        <Button
+          id="duration-button"
+          onClick={(event) => handlePopoverOpen(event, 'duration')}
+          variant="outlined"
+        >
+          Duration
+        </Button>
+        <DurationFilter
+          open={popoverOpen === 'duration'}
+          anchorEl={getAnchorEl('duration')}
+          onClose={handlePopoverClose}
+          duration={durationFilter}
+          setDuration={setDurationFilter}
+        />
+      </Box>
 
-      {/* Times */}
-      <Stack direction="row" spacing={1} alignItems="center">
-        <Typography variant="body2">Times:</Typography>
-        {timeOptions.map((option) => (
-          <Chip
-            key={option}
-            label={option}
-            variant={selectedTimes.includes(option) ? 'filled' : 'outlined'}
-            onClick={() => handleToggleTimes(option)}
-          />
-        ))}
-      </Stack>
+      {/* Times Filter */}
+      <Box sx={{ mb: 2 }}>
+        <Button
+          id="times-button"
+          onClick={(event) => handlePopoverOpen(event, 'times')}
+          variant="outlined"
+        >
+          Times
+        </Button>
+        <TimesFilter
+          open={popoverOpen === 'times'}
+          anchorEl={getAnchorEl('times')}
+          onClose={handlePopoverClose}
+          timesFilter={timesFilter}
+          setTimesFilter={setTimesFilter}
+        />
+      </Box>
 
-      {/* You could add more filters: Emissions, Duration, etc. */}
+      {/* Airlines Filter */}
+      <Box sx={{ mb: 2 }}>
+        <Button
+          id="airlines-button"
+          onClick={(event) => handlePopoverOpen(event, 'airlines')}
+          variant="outlined"
+        >
+          Airlines
+        </Button>
+        <AirlinesFilter
+          open={popoverOpen === 'airlines'}
+          anchorEl={getAnchorEl('airlines')}
+          onClose={handlePopoverClose}
+          airlinesFilter={airlinesFilter}
+          setAirlinesFilter={setAirlinesFilter}
+          availableAirlines={airlines}
+        />
+      </Box>
+
+      {/* Add more filter sections (Time, Bags, Emissions) as needed */}
     </Box>
   );
-}
+};
 
 export default FlightFilterBar;

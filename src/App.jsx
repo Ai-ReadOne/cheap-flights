@@ -2,62 +2,73 @@
 import React, { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
-import ResponsiveNavbar from './components/nav';
+import ResponsiveNavbar from './components/ResponsiveNavbar';
 import FlightSearch from './components/flight/FlightSearch';
 import FlightResults from './components/flight/FlightResults';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const [flights, setFlights] = useState([]);
+  const [searchData, setSearchData] = useState(null);
+  const [selectedOrigin, setSelectedOrigin] = useState(null);
+  const [selectedDestination, setSelectedDestination] = useState(null);
+  const [departureDate, setDepartureDate] = useState(null);
+  const [returnDate, setReturnDate] = useState(null);
+  const [passengers, setPassengers] = useState(1);
+  const [cabinClass, setCabinClass] = useState('economy');
 
-  // Material UI theme that toggles between light and dark
   const theme = createTheme({
     palette: {
       mode: darkMode ? 'dark' : 'light'
     }
   });
 
-  // Toggle dark mode
   const handleToggleDarkMode = () => {
     setDarkMode((prev) => !prev);
   };
 
-  // Called when the user submits the flight search form
-  // (Fetch flight data from your API, then store it in state.)
-  const handleSearch = async (searchParams, navigate) => {
-    // 1) Call your API with searchParams
-    //    e.g., const data = await fetchFlights(searchParams);
-    // 2) Update the flights state
-    //    setFlights(data);
-    // 3) Navigate to the results page
-    navigate('/results');
+  const handleSearch = (data) => {
+    setSelectedOrigin(data.origin);
+    setSelectedDestination(data.destination);
+    setDepartureDate(data.date)
+    setReturnDate(data.returnDate);
+    setPassengers(data.adults);
+    setCabinClass(data.cabinClass);
+    setSearchData(data);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-        {/* Top Navbar with dark mode toggle */}
-        <ResponsiveNavbar
-          darkMode={darkMode}
-          handleToggleDarkMode={handleToggleDarkMode}
-        />
-
-        {/* Define Routes for Search and Results */}
-        <Routes>
-          {/* FlightSearch Page ("/") */}
-          <Route
-            path="/"
-            element={<FlightSearch onSearch={handleSearch} />}
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <ResponsiveNavbar
+            darkMode={darkMode}
+            handleToggleDarkMode={handleToggleDarkMode}
           />
 
-          {/* FlightResults Page ("/results") */}
-          <Route
-            path="/results"
-            element={<FlightResults flights={flights} />}
-          />
-        </Routes>
+          <Routes>
+            <Route
+              path="/"
+              element={<FlightSearch onSearch={handleSearch} />}
+            />
+            <Route
+              path="/results"
+              element={<FlightResults 
+                flightsData={searchData}
+                initialState={{
+                  selectedOrigin: selectedOrigin,
+                  selectedDestination: selectedDestination,
+                  departure: departureDate,
+                  return: returnDate,
+                  passengers: passengers,
+                  cabinClass: cabinClass
+                }} />}
+            />
+          </Routes>
+      </LocalizationProvider>
     </ThemeProvider>
   );
 }
