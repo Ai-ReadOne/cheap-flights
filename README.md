@@ -54,7 +54,7 @@ A React-based web application that helps users find and compare cheap flights. T
 1.  **Clone the repository:**
 
     ```bash
-    git clone <repository-url>
+    git clone git@github.com:Ai-ReadOne/cheap-flights.git
     cd cheap-flights
     ```
 
