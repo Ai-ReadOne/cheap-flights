@@ -17,6 +17,7 @@ export async function searchFlights(params) {
     );
 
     const flightsData = response.data?.data || {};
+    console.log(flightsData);
     return flightsData;
   } catch (error) {
     console.error('Error fetching airports:', error);

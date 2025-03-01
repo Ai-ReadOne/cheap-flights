@@ -1,5 +1,12 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Box, Card, CardContent, Typography, Container, Grid2 as Grid, Button } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Container,
+  Grid2 as Grid,
+  Button,
+  CircularProgress,
+} from '@mui/material';
 import FlightCard from '../components/flight/FlightCard';
 import FlightFilterBar from '../components/flight/FlightFilterBar';
 import FlightSearch from '../components/flight/FlightSearch';
@@ -14,9 +21,10 @@ function FlightResultsPage({ flightsData, initialSearchParams }) {
   const [durationFilter, setDurationFilter] = useState([0, 2880]);
   const [airlinesFilter, setAirlinesFilter] = useState([]);
   const [stopsFilter, setStopsFilter] = useState('Any');
-  const [sort, setSort] = useState('best')
+  const [sort, setSort] = useState('best');
   const [searchData, setSearchData] = useState(flightsData);
   const [visibleFlights, setVisibleFlights] = useState(10);
+  const [isLoading, setIsLoading] = useState(false); // New state for loading
 
   const itineraries = searchData?.itineraries || [];
   const filterStats = searchData?.filterStats || {};
@@ -93,7 +101,7 @@ function FlightResultsPage({ flightsData, initialSearchParams }) {
         }
         if (!found) return false;
       }
-
+      //if there are no selected airlines then we dont do any filtering.
       return true;
     });
   }, [
@@ -105,9 +113,9 @@ function FlightResultsPage({ flightsData, initialSearchParams }) {
     timesFilter,
   ]);
 
-   const sortedItineraries = useMemo(() => {
+  const sortedItineraries = useMemo(() => {
     // Implement sorting logic based on the 'sort' state
-    let sorted = [...filteredItineraries]; 
+    let sorted = [...filteredItineraries];
 
     if (sort === 'cheapest') {
       sorted.sort((a, b) => a.price.raw - b.price.raw);
@@ -123,27 +131,33 @@ function FlightResultsPage({ flightsData, initialSearchParams }) {
   }, [filteredItineraries, sort]);
 
   // Map the filtered flights to the display cards
-  const visibleItineraries = sortedItineraries.slice(0, visibleFlights); 
+  const visibleItineraries = sortedItineraries.slice(0, visibleFlights);
   const flightCards = visibleItineraries.map((flight) => (
-    <Grid  size={{xs:12}}  key={flight.id}>
+    <Grid item size={{ xs: 12 }} key={flight.id}>
       <FlightCard flight={flight} />
     </Grid>
   ));
 
-
   const handleShowMore = () => {
-      setVisibleFlights((prevVisibleFlights) => prevVisibleFlights + 10); 
+    setVisibleFlights((prevVisibleFlights) => prevVisibleFlights + 10);
   };
 
-  const handleSearch = (data) => {
-    setSearchData(data);
-    setVisibleFlights(10);
+  const handleSearch = async (data) => {
+    setIsLoading(true); // Start loading
+    try {
+      setSearchData(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false); // Stop loading
+      setVisibleFlights(10);
+    }
   };
 
   useEffect(() => {
-     setSort('best');
-     setVisibleFlights(10);
-  }, [searchData])
+    setSort('best');
+    setVisibleFlights(10);
+  }, [searchData]);
 
   return (
     <Container
@@ -157,47 +171,67 @@ function FlightResultsPage({ flightsData, initialSearchParams }) {
       }}
     >
       <Box sx={{ width: '100%', maxWidth: '1000px' }}>
-        <Typography variant="h5" sx={{ mb: 3, fontWeight: 500, justifyContent: 'center' }}>
-                Find Cheap Flights
+        <Typography
+          variant="h5"
+          sx={{ mb: 3, fontWeight: 500, justifyContent: 'center' }}
+        >
+          Find Cheap Flights
         </Typography>
 
         {/* Flight Search (with initial parameters) */}
-        <FlightSearch
-          onSearch={handleSearch}
-          initialState={initialSearchParams}
-        />
+        <FlightSearch onSearch={handleSearch} initialState={initialSearchParams} />
 
         {/* Filter Bar */}
         <Box sx={{ mb: 2, width: '100%' }}>
-        <Grid container spacing={2}>
-          <Grid  size={{xs:12, sm:7}}>
-          <FlightFilterBar
-            priceRange={priceRange}
-            setPriceRange={setPriceRange}
-            timesFilter={timesFilter}
-            setTimesFilter={setTimesFilter}
-            durationFilter={durationFilter}
-            setDurationFilter={setDurationFilter}
-            airlinesFilter={airlinesFilter}
-            setAirlinesFilter={setAirlinesFilter}
-            stopsFilter={stopsFilter}
-            setStopsFilter={setStopsFilter}
-            filterStats={filterStats}
-          />
-          </Grid>
-          <Grid  size={{xs:12, sm:5}}>
-            <FlightSortBar selectedSort={sort} setSelectedSort={setSort} />
-          </Grid>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm="auto">
+              <FlightFilterBar
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+                timesFilter={timesFilter}
+                setTimesFilter={setTimesFilter}
+                durationFilter={durationFilter}
+                setDurationFilter={setDurationFilter}
+                airlinesFilter={airlinesFilter}
+                setAirlinesFilter={setAirlinesFilter}
+                stopsFilter={stopsFilter}
+                setStopsFilter={setStopsFilter}
+                filterStats={filterStats}
+              />
+            </Grid>
+            <Grid item xs={12} sm="auto">
+              <FlightSortBar selectedSort={sort} setSelectedSort={setSort} />
+            </Grid>
           </Grid>
         </Box>
 
         {/* Display filtered results */}
-        <Box sx={{ mt: 2, width: '100%' }}>
-          <Grid container spacing={2}>
-            {flightCards}
-          </Grid>
+        <Box sx={{ mt: 2, width: '100%', position: 'relative' }}>
+          {isLoading && (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: 1,
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
+          {/* Conditional rendering: show message if no flights, otherwise show flight cards */}
+          {sortedItineraries.length === 0 && !isLoading ? (
+            <Typography variant="body1" sx={{ textAlign: 'center' }}>
+              No flights available. Please adjust your search criteria.
+            </Typography>
+          ) : !isLoading && sortedItineraries.length > 0 ? (
+            <Grid container spacing={2}>
+              {flightCards}
+            </Grid>
+          ) : null}
           {/* Show More Button */}
-          {visibleFlights < sortedItineraries.length && (
+          {!isLoading && visibleFlights < sortedItineraries.length && (
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
               <Button onClick={handleShowMore} variant="outlined">
                 Show More

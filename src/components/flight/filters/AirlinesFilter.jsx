@@ -11,31 +11,6 @@ import {
   Divider
 } from '@mui/material';
 
-/**
- * Props:
- *  - open: boolean (whether the popover is open)
- *  - anchorEl: element (the anchor for the popover)
- *  - onClose: function to close the popover
- *  - airlinesFilter: array of selected airline IDs or names
- *  - setAirlinesFilter: function to update the airlinesFilter state
- *  - availableAirlines: array of all possible airlines (optional)
- *    e.g. [
- *      { id: 'AA', name: 'American Airlines' },
- *      { id: 'DL', name: 'Delta' },
- *      ...
- *    ]
- *
- * Usage:
- *   <AirlinesFilter
- *     open={openPopover === 'airlines'}
- *     anchorEl={anchorEl}
- *     onClose={handleClose}
- *     airlinesFilter={airlinesFilter}
- *     setAirlinesFilter={setAirlinesFilter}
- *     availableAirlines={airlinesData}
- *   />
- */
-
 function AirlinesFilter({
   open,
   anchorEl,
